@@ -53,7 +53,7 @@ def get_secret():
     with file("secret.bin") as f:
         return f.read()
 
-if __name__ == '__main__':
+def console_test():
     ticket = generate()
     print 'TICKET', hexlify(ticket)
     qr = encode(ticket)
@@ -62,3 +62,7 @@ if __name__ == '__main__':
     print 'DECODE', hexlify(decoded)
     assert decoded == ticket
     print 'VERIFY', verify(decoded)
+
+
+if __name__ == '__main__':
+    console_test()
