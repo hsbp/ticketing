@@ -6,6 +6,7 @@ from binascii import hexlify, unhexlify
 import hmac
 
 UUID_LEN = 16
+HMAC_LEN = 10
 
 def encode(ticket):
     return base36encode(int(hexlify(ticket), 16))
@@ -47,7 +48,7 @@ def verify(ticket):
     return parsed
 
 def sign(tid):
-    return hmac.new(get_secret(), tid, sha256).digest()[:10]
+    return hmac.new(get_secret(), tid, sha256).digest()[:HMAC_LEN]
 
 def get_secret():
     with file("secret.bin") as f:
