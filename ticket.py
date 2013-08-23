@@ -7,6 +7,7 @@ import hmac
 
 UUID_LEN = 16
 HMAC_LEN = 10
+FULL_LEN = UUID_LEN + HMAC_LEN
 
 def encode(ticket):
     return base36encode(int(hexlify(ticket), 16))
@@ -22,9 +23,8 @@ def base36encode(number):
     return base36 or alphabet[0]
 
 def decode(qr):
-    hexed = hex(base36decode(qr))[2:-1]
-    if len(hexed) % 2 == 1:
-        hexed = '0' + hexed
+    fmt = '{0:0' + str(FULL_LEN * 2) + 'x}'
+    hexed = fmt.format(base36decode(qr))
     return unhexlify(hexed)
 
 def base36decode(number):
