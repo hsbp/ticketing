@@ -12,11 +12,6 @@ def encode(ticket):
     return base36encode(int(hexlify(ticket), 16))
 
 def base36encode(number):
-    if not isinstance(number, (int, long)):
-        raise TypeError('number must be an integer')
-    if number < 0:
-        raise ValueError('number must be positive')
-
     alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
     base36 = ''
