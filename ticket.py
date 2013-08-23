@@ -49,7 +49,7 @@ def get_secret():
     with file("secret.bin") as f:
         return f.read()
 
-def console_test():
+def console_test(): # pragma: nocover
     ticket = generate()
     print 'TICKET', hexlify(ticket)
     qr = encode(ticket)
@@ -61,4 +61,4 @@ def console_test():
 
 
 if __name__ == '__main__':
-    console_test()
+    console_test() # pragma: nocover
