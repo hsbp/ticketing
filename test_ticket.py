@@ -11,6 +11,9 @@ TICKET_VALUES = (
 
 
 class TestTicket(unittest.TestCase):
+    def setUp(self):
+        self.vm = ticket.VendingMachine("TestingSecret23")
+
     def test_encode_decode(self):
         for ticket_value in TICKET_VALUES:
             encoded = ticket.encode(ticket_value)
@@ -18,7 +21,7 @@ class TestTicket(unittest.TestCase):
             self.assertEquals(ticket_value, decoded)
 
     def test_generate_verify(self):
-        ticket.verify(ticket.generate())
+        self.vm.verify(self.vm.generate())
 
 
 if __name__ == '__main__':
