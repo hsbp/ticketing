@@ -18,7 +18,7 @@ TICKET_FIELDS = (
 def event_list():
     return render_template('event_list.html', event_list=events.get())
 
-@app.route('/<eid>.html', methods=['GET', 'POST'])
+@app.route('/<eid>', methods=['GET', 'POST'])
 def show_event(eid):
     try:
         event = events.get(eid)
