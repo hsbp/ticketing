@@ -1,5 +1,14 @@
-.invalid {
-	border: 1px solid red;
+input[type=text] {
+	border: 1px solid #444;
+	width: 200px;
+}
+input.invalid {
+	border-color: #c00;
+	background: #fee;
+}
+th {
+	padding-right: 8px;
+	text-align: right;
 }
 .ticket {
 	text-align: center;
