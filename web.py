@@ -45,7 +45,7 @@ def show_ticket(eid, ticket):
     try:
         event = events.get(eid)
         event.verify_ticket(ticket)
-    except KeyError, AssertionError:
+    except (KeyError, AssertionError):
         abort(404)
     else:
         ticket_ascii = check_output(['qrencode', '-t', 'ASCII', ticket])
