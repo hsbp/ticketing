@@ -20,7 +20,7 @@ img {
 #forkme {
 	position: absolute;
 	top: 0;
-	right: 0;
+	right: 20px;
 }
 #content {
 	width: 600px;
