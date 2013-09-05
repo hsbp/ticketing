@@ -44,6 +44,6 @@ def get(eid=None):
     with file('config.json', 'rb') as config_file:
         config = json.load(config_file)
     if eid is None:
-        return [(eid, Event(eid, data)) for eid, data in config['events'].iteritems()]
+        return [(iid, Event(iid, data)) for iid, data in config['events'].iteritems()]
     else:
         return Event(eid, config['events'][eid])
