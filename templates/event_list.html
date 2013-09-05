@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% set title = "List of events" %}
+{% block content %}
+<ul>
+{% for eid, event in event_list %}
+<li><a href="{{ url_for('show_event', eid=eid) }}">{{ event.name }}</a> ({{ event.start }} - {{ event.end }}, {{ event.location }})</li>
+{% endfor %}
+</ul>
+{% endblock %}

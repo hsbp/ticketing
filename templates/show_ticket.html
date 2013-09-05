@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% set title = "Your " + event.name + " ticket" %}
+{% block content %}
+<table class="qr">
+    {% for line in ticket_ascii.split('\n') %}
+    <tr>
+        {% for cell in line %}{% if loop.index % 2 %}
+        <td class="{{ 'mark' if cell != ' ' else 'space' }}"></td>
+        {% endif %}{% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+<code>{{ ticket_id }}</code>
+{% endblock %}
