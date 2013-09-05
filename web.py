@@ -37,7 +37,8 @@ def show_event(eid):
                 values[name] = info
             if all_fields_valid:
                 ticket = event.generate_ticket(values)
-                return redirect(url_for('show_ticket', eid=eid, ticket=ticket))
+                ticket_url = url_for('show_ticket', eid=eid, ticket=ticket, _external=True)
+                return redirect(ticket_url)
         return render_template('show_event.html', event=event,
                 fields=TICKET_FIELDS, values=values)
 
