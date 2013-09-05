@@ -3,6 +3,7 @@
     <head>
         <title>{{ title }} &lt; H.A.C.K. Ticket Vending Machine</title>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" href="{{ url_for('static', filename='ticketing.css') }}" type="text/css" />
 		<style>
 			.invalid { border: 1px solid red; }
 			.ticket { text-align: center; }
@@ -13,7 +14,7 @@
     <body>
         <h1>H.A.C.K. Ticket Vending Machine</h1>
         <h2>{{ title }}</h2>
-        <a href="https://github.com/hsbp/ticketing"><img style="position: absolute; top: 0; right: 0; border: 0;" src="{{ url_for('static', filename='forkme_right_darkblue_121621.png') }}" alt="Fork me on GitHub"></a>
+        <a href="https://github.com/hsbp/ticketing"><img id="forkme" src="{{ url_for('static', filename='forkme_right_darkblue_121621.png') }}" alt="Fork me on GitHub"></a>
         {% block content %}{% endblock %}
     </body>
 </html>

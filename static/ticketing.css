@@ -1,0 +1,23 @@
+.invalid {
+	border: 1px solid red;
+}
+.ticket {
+	text-align: center;
+}
+.ticket .id {
+	font-family: monospace;
+	font-size: 16pt;
+}
+@media print {
+	#printcontrols {
+		display: none;
+	}
+}
+img {
+	border: 0;
+}
+#forkme {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
