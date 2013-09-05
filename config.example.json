@@ -8,5 +8,10 @@
 			"secret": "6eD/2J+Q8wnR2wNEioGErKl/cTppbtMkVQn1LOoULTo=",
 			"homepage": "http://camp.hsbp.org/2013/zer0/"
 		}
+	},
+	"smtp": {
+		"host": "mailhost.tld",
+		"port": 25,
+		"from": "foo@bar.tld"
 	}
 }

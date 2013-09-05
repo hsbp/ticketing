@@ -3,9 +3,19 @@
 from __future__ import unicode_literals
 from datetime import datetime
 from base64 import b64decode
+from email.mime.text import MIMEText
+from email.utils import formatdate, make_msgid
+from smtplib import SMTP
 import os, json, ticket
 
 ISO_DATE_FMT = '%Y-%m-%d'
+MAIL_FMT = '''
+Dear {name},
+thanks for registering for a ticket to {self.name}. The event starts on {self.start} at {self.location}, and your ticket can be viewed or downloaded from {url} any time until {self.end}. Keep this URL private, as each ticket can be used only once, no matter how many copies are made. See the webpage ({self.homepage}) for more details about the event.
+
+Regards,
+{self.name} organizers
+'''.strip()
 
 class Event(object):
     TEXT_KEYS = ('name', 'location', 'homepage', 'secret')
@@ -26,6 +36,23 @@ class Event(object):
         with file(self.get_ticket_filename(ticket_id), 'wb') as ticket_file:
             json.dump(values, ticket_file)
         return ticket_id
+
+    def send_mail(self, values, url):
+        content = MAIL_FMT.format(self=self, name=values['name']['value'], url=url)
+        recipient = values['email']['value']
+        cfg = get_config('smtp')
+        smtp = SMTP(cfg.get('host', 'localhost'), cfg.get('port', 25))
+        try:
+            sender = cfg['from']
+            msg = MIMEText(content, 'plain', 'utf-8')
+            msg['To'] = recipient
+            msg['From'] = self.name + ' <' + sender + '>'
+            msg['Subject'] = u'Your {self.name} ticket'.format(self=self)
+            msg['Date'] = formatdate(localtime=True)
+            msg['Message-Id'] = make_msgid(self.eid)
+            smtp.sendmail(sender, [recipient], msg.as_string(False))
+        finally:
+            smtp.quit()
 
     def verify_ticket(self, ticket_id):
         vm = self.get_vending_machine()
