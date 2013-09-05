@@ -2,6 +2,7 @@
 
 from flask import Flask, render_template, abort, request, redirect, url_for
 from subprocess import check_output
+from base64 import b64encode
 import events, re
 
 app = Flask(__name__)
@@ -48,9 +49,10 @@ def show_ticket(eid, ticket):
     except (KeyError, AssertionError):
         abort(404)
     else:
-        ticket_ascii = check_output(['qrencode', '-t', 'ASCII', ticket])
+        ticket_png = b64encode(check_output(['qrencode', '-t', 'PNG', '-s', '8',
+            '-o', '-', '-i', ticket]))
         return render_template('show_ticket.html', event=event,
-                ticket_id=ticket, ticket_ascii=ticket_ascii)
+                ticket_id=ticket, ticket_png=ticket_png)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,14 +1,19 @@
 {% extends "base.html" %}
 {% set title = "Your " + event.name + " ticket" %}
 {% block content %}
-<table class="qr">
-    {% for line in ticket_ascii.split('\n') %}
-    <tr>
-        {% for cell in line %}{% if loop.index % 2 %}
-        <td class="{{ 'mark' if cell != ' ' else 'space' }}"></td>
-        {% endif %}{% endfor %}
-    </tr>
-    {% endfor %}
-</table>
-<code>{{ ticket_id }}</code>
+<div class="ticket">
+<img src="data:image/png;base64,{{ ticket_png }}" />
+<p class="id">{{ ticket_id }}</p>
+<p class="info">Present the QR code above at the entrance on your choice of device (notebook, smartphone, tablet, e-book reader, C64, ZX Spectrum, etc.) or print it on a white sheet of paper, without bending it on the code.</p>
+<p id="printcontrols"></p>
+</div>
+<script type="text/javascript">
+<!--
+    var btn = document.createElement("input");
+    btn.type = "button";
+    btn.value = "Print ticket";
+    btn.onclick = function() { window.print(); };
+    document.getElementById("printcontrols").appendChild(btn);
+// -->
+</script>
 {% endblock %}
