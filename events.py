@@ -41,9 +41,12 @@ class Event(object):
 
 
 def get(eid=None):
-    with file('config.json', 'rb') as config_file:
-        config = json.load(config_file)
+    events = get_config('events')
     if eid is None:
-        return [(iid, Event(iid, data)) for iid, data in config['events'].iteritems()]
+        return [(iid, Event(iid, data)) for iid, data in events.iteritems()]
     else:
-        return Event(eid, config['events'][eid])
+        return Event(eid, events[eid])
+
+def get_config(key):
+    with file('config.json', 'rb') as config_file:
+        return json.load(config_file)[key]
