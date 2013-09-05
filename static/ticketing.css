@@ -3,23 +3,15 @@
 }
 .ticket {
 	text-align: center;
-	max-width: 400pt;
-	margin: auto;
-	border: 2px solid #444;
-	padding: 6pt 14pt 6pt 14pt;
-	background: #fff;
 }
 .ticket .id {
 	font-family: monospace;
 	font-size: 16pt;
+	margin-top: 0;
 }
 @media print {
-	#printcontrols, #forkme, h1 {
+	#printcontrols, #forkme, h1, #footer {
 		display: none;
-	}
-	.ticket {
-		border: none;
-		max-width: auto;
 	}
 }
 img {
@@ -29,4 +21,50 @@ img {
 	position: absolute;
 	top: 0;
 	right: 0;
+}
+#content {
+	width: 600px;
+	padding: 0 20px 0 20px;
+	margin: auto;
+	background: url('shadow.png') repeat-y;
+	min-height: 100%;
+	position: relative;
+}
+html {
+	height: 100%;
+}
+body {
+	margin: 0;
+	height: 100%;
+}
+h1 {
+	background: url('header.jpg') no-repeat;
+	height: 200px;
+	width: 600px;
+	margin: 0;
+	padding: 0;
+	text-indent: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+}
+h2, #footer {
+	margin: 0;
+	background: #eee;
+	padding: 6px;
+}
+#footer {
+	text-align: center;
+	font-size: 80%;
+	position: absolute;
+	bottom: 0;
+	width: 588px;
+}
+form table {
+	margin: 18px auto auto auto;
+}
+a {
+	color: #004;
+}
+#body {
+	padding-bottom: 32px;
 }

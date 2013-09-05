@@ -6,9 +6,27 @@
 		<link rel="stylesheet" href="{{ url_for('static', filename='ticketing.css') }}" type="text/css" />
     </head>
     <body>
-        <h1>H.A.C.K. Ticket Vending Machine</h1>
-        <h2>{{ title }}</h2>
-        <a href="https://github.com/hsbp/ticketing"><img id="forkme" src="{{ url_for('static', filename='forkme_right_darkblue_121621.png') }}" alt="Fork me on GitHub"></a>
-        {% block content %}{% endblock %}
+		<div id="content">
+			<h1>H.A.C.K. Ticket Vending Machine</h1>
+			<h2>{{ title }}</h2>
+			<a href="https://github.com/hsbp/ticketing">
+				<img id="forkme"
+					src="{{ url_for('static', filename='forkme_right_darkblue_121621.png') }}"
+					alt="Fork me on GitHub" />
+			</a>
+			<div id="body">
+				{% block content %}{% endblock %}
+			</div>
+			<div id="footer">
+				Header image is
+				<a href="http://www.flickr.com/photos/rootsnrails/9605061240/">
+					Get your Ticket by railsnroots
+				</a>,
+				licensed under
+				<a href="http://creativecommons.org/licenses/by-nc/2.0/deed.en">
+					CC BY-NC 2.0
+				</a>.
+			</div>
+		</div>
     </body>
 </html>
