@@ -23,7 +23,6 @@ def show_event(eid):
     event = get_event_or_404(eid)
     values = {}
     if request.method == 'POST':
-        all_fields_valid = True
         for name, _, validator in TICKET_FIELDS:
             value = request.form.get(name, '')
             error = validator is not None and not validator(value)
