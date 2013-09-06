@@ -18,6 +18,10 @@ th {
 	font-size: 16pt;
 	margin-top: 0;
 }
+.ticket .info {
+    margin-right: 16px;
+    margin-left: 16px;
+}
 @media print {
 	#printcontrols, #forkme, h1, #footer {
 		display: none;
