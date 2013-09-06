@@ -3,14 +3,14 @@
 from flask import Flask, render_template, abort, request, redirect, url_for
 from subprocess import check_output
 from base64 import b64encode
-import events, re
+from email_validation import valid_email_address
+import events
 
 app = Flask(__name__)
 
-EMAIL_RE = re.compile(r'^[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$', re.I)
 TICKET_FIELDS = (
         ('name', 'Name', bool),
-        ('email', 'E-mail', EMAIL_RE.match),
+        ('email', 'E-mail', valid_email_address),
         ('notes', 'Notes', None),
         )
 

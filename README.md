@@ -24,3 +24,4 @@ Dependencies
  - Python 2.x (tested on 2.7.5)
  - Flask (Debian/Ubuntu package: `python-flask`)
  - qrencode (Debian/Ubuntu package: `qrencode`)
+ - py_email_validation (https://pypi.python.org/pypi/py_email_validation)
