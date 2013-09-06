@@ -20,38 +20,41 @@ def event_list():
 
 @app.route('/<eid>', methods=['GET', 'POST'])
 def show_event(eid):
-    try:
-        event = events.get(eid)
-    except KeyError:
-        abort(404)
-    else:
-        values = {}
-        if request.method == 'POST':
-            all_fields_valid = True
-            for name, _, validator in TICKET_FIELDS:
-                value = request.form.get(name, '')
-                error = validator is not None and not validator(value)
-                values[name] = {'value': value, 'error': error}
-            if not any(field['error'] for field in values.itervalues()):
-                ticket = event.generate_ticket(values)
-                ticket_url = url_for('show_ticket', eid=eid, ticket=ticket, _external=True)
-                event.send_mail(values, ticket_url)
-                return redirect(ticket_url)
-        return render_template('show_event.html', event=event,
-                fields=TICKET_FIELDS, values=values)
+    event = get_event_or_404(eid)
+    values = {}
+    if request.method == 'POST':
+        all_fields_valid = True
+        for name, _, validator in TICKET_FIELDS:
+            value = request.form.get(name, '')
+            error = validator is not None and not validator(value)
+            values[name] = {'value': value, 'error': error}
+        if not any(field['error'] for field in values.itervalues()):
+            ticket = event.generate_ticket(values)
+            ticket_url = url_for('show_ticket', eid=eid, ticket=ticket, _external=True)
+            event.send_mail(values, ticket_url)
+            return redirect(ticket_url)
+    return render_template('show_event.html', event=event,
+            fields=TICKET_FIELDS, values=values)
 
 @app.route('/<eid>/<ticket>.html')
 def show_ticket(eid, ticket):
+    event = get_event_or_404(eid)
     try:
-        event = events.get(eid)
         event.verify_ticket(ticket)
-    except (KeyError, AssertionError):
+    except (ValueError, AssertionError):
         abort(404)
     else:
         ticket_png = b64encode(check_output(['qrencode', '-t', 'PNG', '-s', '8',
             '-o', '-', '-i', ticket]))
         return render_template('show_ticket.html', event=event,
                 ticket_id=ticket, ticket_png=ticket_png)
+
+def get_event_or_404(eid):
+    try:
+        return events.get(eid)
+    except KeyError:
+        abort(404)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
