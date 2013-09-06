@@ -57,8 +57,7 @@ class Event(object):
     def verify_ticket(self, ticket_id):
         vm = self.get_vending_machine()
         vm.verify(ticket.decode(ticket_id))
-        if not os.path.exists(self.get_ticket_filename(ticket_id)):
-            raise KeyError('Ticket file does not exist')
+        assert os.path.exists(self.get_ticket_filename(ticket_id))
 
     def get_ticket_filename(self, ticket_id):
         return os.path.join(self.eid, ticket_id) + '.json'
