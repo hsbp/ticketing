@@ -30,12 +30,9 @@ def show_event(eid):
             all_fields_valid = True
             for name, _, validator in TICKET_FIELDS:
                 value = request.form.get(name, '')
-                info = {'value': value}
-                if validator is not None and not validator(value):
-                    info['error'] = True
-                    all_fields_valid = False
-                values[name] = info
-            if all_fields_valid:
+                error = validator is not None and not validator(value)
+                values[name] = {'value': value, 'error': error}
+            if not any(field['error'] for field in values.itervalues()):
                 ticket = event.generate_ticket(values)
                 ticket_url = url_for('show_ticket', eid=eid, ticket=ticket, _external=True)
                 event.send_mail(values, ticket_url)
