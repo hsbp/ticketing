@@ -81,3 +81,8 @@ a {
 #body {
 	padding-bottom: 32px;
 }
+#certinfo {
+	overflow-x: scroll;
+	padding: 8px;
+	margin: 8px;
+}

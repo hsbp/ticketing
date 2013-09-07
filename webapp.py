@@ -18,6 +18,11 @@ TICKET_FIELDS = (
 def event_list():
     return render_template('event_list.html', event_list=events.get())
 
+@app.route('/cert')
+def show_cert():
+    with file('certinfo.txt') as certinfo:
+        return render_template('show_cert.html', certinfo=certinfo.read())
+
 @app.route('/<eid>', methods=['GET', 'POST'])
 def show_event(eid):
     event = get_event_or_404(eid)

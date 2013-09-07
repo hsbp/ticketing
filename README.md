@@ -13,6 +13,9 @@ and use the secret generated above there. The keys used for events must either
 exist as a writable subdirectory or the user running the Python process must
 have the privileges necessary to create subdirectories for web vending to work.
 
+If you serve it over SSL, you can put information in plain text into a file
+named `certinfo.txt`, which will be displayed under `/cert`.
+
 License
 -------
 
