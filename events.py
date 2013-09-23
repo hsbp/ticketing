@@ -37,9 +37,13 @@ class Event(object):
             json.dump(values, ticket_file)
         return ticket_id
 
-    def send_mail(self, values, url):
+    def send_ticket(self, values, url):
         content = MAIL_FMT.format(self=self, name=values['name']['value'], url=url)
         recipient = values['email']['value']
+        subject = u'Your {self.name} ticket'.format(self=self)
+        self.send_mail(subject, recipient, content)
+
+    def send_mail(self, subject, recipient, content):
         cfg = get_config('smtp')
         smtp = SMTP(cfg.get('host', 'localhost'), cfg.get('port', 25))
         try:
@@ -47,7 +51,7 @@ class Event(object):
             msg = MIMEText(content, 'plain', 'utf-8')
             msg['To'] = recipient
             msg['From'] = self.name + ' <' + sender + '>'
-            msg['Subject'] = u'Your {self.name} ticket'.format(self=self)
+            msg['Subject'] = subject
             msg['Date'] = formatdate(localtime=True)
             msg['Message-Id'] = make_msgid(self.eid)
             smtp.sendmail(sender, [recipient], msg.as_string(False))

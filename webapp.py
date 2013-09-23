@@ -35,7 +35,7 @@ def show_event(eid):
         if not any(field['error'] for field in values.itervalues()):
             ticket = event.generate_ticket(values)
             ticket_url = url_for('show_ticket', eid=eid, ticket=ticket, _external=True)
-            event.send_mail(values, ticket_url)
+            event.send_ticket(values, ticket_url)
             return redirect(ticket_url)
     return render_template('show_event.html', event=event,
             fields=TICKET_FIELDS, values=values)
