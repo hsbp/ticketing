@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 
-from __future__ import unicode_literals
+from __future__ import unicode_literals, print_function
 from datetime import datetime
 from base64 import b64decode
 from email.mime.text import MIMEText
 from email.utils import formatdate, make_msgid
 from smtplib import SMTP
-import os, json, ticket
+from glob import iglob
+import os, json, ticket, codecs
 
 ISO_DATE_FMT = '%Y-%m-%d'
 MAIL_FMT = '''
@@ -42,6 +43,17 @@ class Event(object):
         recipient = values['email']['value']
         subject = u'Your {self.name} ticket'.format(self=self)
         self.send_mail(subject, recipient, content)
+
+    def send_news(self, subject, content_file):
+        with codecs.open(content_file, 'r', 'utf-8') as cf:
+            content = cf.read()
+        for filename in iglob(os.path.join(self.eid, '*.json')):
+            with file(filename) as ticket:
+                values = json.load(ticket)
+            recipient = values['email']['value']
+            self.send_mail(subject, recipient, content.format(
+                self=self, name=values['name']['value']))
+            print('sent to', recipient)
 
     def send_mail(self, subject, recipient, content):
         cfg = get_config('smtp')
@@ -80,3 +92,22 @@ def get(eid=None):
 def get_config(key):
     with file('config.json', 'rb') as config_file:
         return json.load(config_file)[key]
+
+def main():
+    from sys import argv, stderr
+    if len(argv) < 5 or argv[1] != 'news':
+        print('Usage: {0} news <event> <subject> <mail.txt>'.format(argv[0]),
+                file=stderr)
+        exit(1)
+    else:
+        try:
+            event = get(argv[2])
+        except KeyError:
+            print('Invalid event name')
+            exit(1)
+        else:
+            event.send_news(argv[3].decode('utf-8'), argv[4])
+
+
+if __name__ == '__main__':
+    main()
