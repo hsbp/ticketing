@@ -4,6 +4,8 @@
 <ul>
 {% for eid, event in event_list %}
 <li><a href="{{ url_for('show_event', eid=eid) }}">{{ event.name }}</a> ({{ event.start }} - {{ event.end }}, {{ event.location }})</li>
+{% else %}
+<li><em>There are no events right now you could register tickets for. :(</em></li>
 {% endfor %}
 </ul>
 {% endblock %}
