@@ -5,7 +5,7 @@
 <table>
     <tr>
         <th>Date</th>
-        <td>{{ event.start }} till {{ event.end }}</td>
+        <td>{{ event.start }}{% if event.end != event.start %} till {{ event.end }}{% endif %}</td>
     </tr>
     <tr>
         <th>Location</th>
