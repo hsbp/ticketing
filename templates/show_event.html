@@ -13,7 +13,7 @@
     </tr>
     <tr>
         <th>Webpage</th>
-        <td><a href="{{ event.homepage }}">{{ event.homepage }}</a></td>
+        <td><a href="{{ event.homepage }}" id="hplink">{{ event.homepage }}</a></td>
     </tr>
     {% for name, caption, _ in fields %}
     <tr>
@@ -36,4 +36,10 @@
     <li>You don't have to put your legal name, you can use a nickname instead. You can also use any e-mail address you'd like, even a <a href="http://mailinator.com/">disposable one</a>.</li>
     <li>Your data will be saved on a server located in Budapest, Hungary, and will only be used in conjuction with {{ event.name }} by the organizers. All data will be destroyed until {{ event.end }} when the event ends. According to paragraph (3) of § 65 Act CXII of 2011 Informational Self-determination and Freedom of Information, no authority needs to be notified.</li>
 </ul>
+<script type="text/javascript">
+<!--
+    var a = document.getElementById("hplink")
+	a.innerHTML = a.innerHTML.replace("?", "?<br />");
+// -->
+</script>
 {% endblock %}
