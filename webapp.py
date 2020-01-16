@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from __future__ import unicode_literals
 from flask import Flask, render_template, abort, request, redirect, url_for
 from subprocess import check_output
 from base64 import b64encode
@@ -32,7 +33,7 @@ def show_event(eid):
             value = request.form.get(name, '')
             error = validator is not None and not validator(value)
             values[name] = {'value': value, 'error': error}
-        if not any(field['error'] for field in values.itervalues()):
+        if not any(field['error'] for field in values.values()):
             ticket = event.generate_ticket(values)
             ticket_url = url_for('show_ticket', eid=eid, ticket=ticket, _external=True)
             event.send_ticket(values, ticket_url)
@@ -49,7 +50,7 @@ def show_ticket(eid, ticket):
         abort(404)
     else:
         ticket_png = b64encode(check_output(['qrencode', '-t', 'PNG', '-s', '8',
-            '-o', '-', '-i', ticket]))
+            '-o', '-', '-i', ticket])).decode('ascii')
         return render_template('show_ticket.html', event=event,
                 ticket_id=ticket, ticket_png=ticket_png)
 

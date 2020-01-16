@@ -34,7 +34,7 @@ class Event(object):
         ticket_id = ticket.encode(vm.generate())
         if not os.path.exists(self.eid):
             os.makedirs(self.eid)
-        with file(self.get_ticket_filename(ticket_id), 'wb') as ticket_file:
+        with open(self.get_ticket_filename(ticket_id), 'w') as ticket_file:
             json.dump(values, ticket_file)
         return ticket_id
 
@@ -48,7 +48,7 @@ class Event(object):
         with codecs.open(content_file, 'r', 'utf-8') as cf:
             content = cf.read()
         for filename in iglob(os.path.join(self.eid, '*.json')):
-            with file(filename) as ticket:
+            with open(filename, 'rb') as ticket:
                 values = json.load(ticket)
             recipient = values['email']['value']
             self.send_mail(subject, recipient, content.format(
@@ -79,18 +79,18 @@ class Event(object):
         return os.path.join(self.eid, ticket_id) + '.json'
 
     def get_vending_machine(self):
-        return ticket.VendingMachine(b64decode(self.secret))
+        return ticket.VendingMachine(b64decode(self.secret.encode('ascii')))
 
 
 def get(eid=None):
     events = get_config('events')
     if eid is None:
-        return [(iid, Event(iid, data)) for iid, data in events.iteritems()]
+        return [(iid, Event(iid, data)) for iid, data in events.items()]
     else:
         return Event(eid, events[eid])
 
 def get_config(key):
-    with file('config.json', 'rb') as config_file:
+    with open('config.json', 'rb') as config_file:
         return json.load(config_file)[key]
 
 def main():

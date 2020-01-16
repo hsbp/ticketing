@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from __future__ import unicode_literals, print_function
 from uuid import uuid4, UUID
 from hashlib import sha256
 from binascii import hexlify, unhexlify
@@ -50,15 +51,15 @@ def base36decode(number):
     return int(number, 36)
 
 def console_test(): # pragma: nocover
-    vm = VendingMachine('WeakSecret42')
+    vm = VendingMachine(b'WeakSecret42')
     ticket = vm.generate()
-    print 'TICKET', hexlify(ticket)
+    print('TICKET', hexlify(ticket))
     qr = encode(ticket)
-    print 'QRCODE', qr
+    print('QRCODE', qr)
     decoded = decode(qr)
-    print 'DECODE', hexlify(decoded)
+    print('DECODE', hexlify(decoded))
     assert decoded == ticket
-    print 'VERIFY', vm.verify(decoded)
+    print('VERIFY', vm.verify(decoded))
 
 
 if __name__ == '__main__':

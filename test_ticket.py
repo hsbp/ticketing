@@ -1,18 +1,21 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+from six.moves import range
+from six import int2byte
 import unittest, ticket
 
 TICKET_VALUES = (
-        '\x01' * ticket.FULL_LEN,
-        '\xFF' * ticket.FULL_LEN,
-        ''.join(chr(i) for i in xrange(ticket.FULL_LEN)),
+        b'\x01' * ticket.FULL_LEN,
+        b'\xFF' * ticket.FULL_LEN,
+        b''.join(int2byte(i) for i in range(ticket.FULL_LEN)),
         )
 
 
 class TestTicket(unittest.TestCase):
     def setUp(self):
-        self.vm = ticket.VendingMachine("TestingSecret23")
+        self.vm = ticket.VendingMachine(b"TestingSecret23")
 
     def test_encode_decode(self):
         for ticket_value in TICKET_VALUES:
