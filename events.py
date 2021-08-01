@@ -76,7 +76,7 @@ class Event(object):
         assert os.path.exists(self.get_ticket_filename(ticket_id))
 
     def get_ticket_filename(self, ticket_id):
-        return os.path.join(self.eid, ticket_id) + '.json'
+        return os.path.join(os.path.dirname(__file__), self.eid, ticket_id) + '.json'
 
     def get_vending_machine(self):
         return ticket.VendingMachine(b64decode(self.secret.encode('ascii')))
@@ -90,7 +90,7 @@ def get(eid=None):
         return Event(eid, events[eid])
 
 def get_config(key):
-    with open('config.json', 'rb') as config_file:
+    with open(os.path.join(os.path.dirname(__file__), 'config.json'), 'rb') as config_file:
         return json.load(config_file)[key]
 
 def main():
